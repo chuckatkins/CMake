@@ -450,13 +450,13 @@ mark_as_advanced( HDF5_DIFF_EXECUTABLE )
 if( NOT HDF5_FOUND )
     # seed the initial lists of libraries to find with items we know we need
     set(HDF5_C_LIBRARY_NAMES          hdf5)
-    set(HDF5_C_HL_LIBRARY_NAMES       hdf5_hl ${HDF5_C_LIBRARY_NAMES_INIT})
+    set(HDF5_HL_LIBRARY_NAMES         hdf5_hl ${HDF5_C_LIBRARY_NAMES})
 
-    set(HDF5_CXX_LIBRARY_NAMES        hdf5_cpp    ${HDF5_C_LIBRARY_NAMES_INIT})
-    set(HDF5_CXX_HL_LIBRARY_NAMES     hdf5_hl_cpp ${HDF5_C_HL_LIBRARY_NAMES_INIT} ${HDF5_CXX_LIBRARY_NAMES_INIT})
+    set(HDF5_CXX_LIBRARY_NAMES        hdf5_cpp    ${HDF5_C_LIBRARY_NAMES})
+    set(HDF5_CXX_HL_LIBRARY_NAMES     hdf5_hl_cpp ${HDF5_C_HL_LIBRARY_NAMES} ${HDF5_CXX_LIBRARY_NAMES})
 
-    set(HDF5_Fortran_LIBRARY_NAMES    hdf5_fortran   ${HDF5_C_LIBRARY_NAMES_INIT})
-    set(HDF5_Fortran_HL_LIBRARY_NAMES hdf5hl_fortran ${HDF5_C_HL_LIBRARY_NAMES_INIT} ${HDF5_Fortran_LIBRARY_NAMES_INIT})
+    set(HDF5_Fortran_LIBRARY_NAMES    hdf5_fortran   ${HDF5_C_LIBRARY_NAMES})
+    set(HDF5_Fortran_HL_LIBRARY_NAMES hdf5hl_fortran ${HDF5_HL_LIBRARY_NAMES} ${HDF5_Fortran_LIBRARY_NAMES})
 
     foreach( LANGUAGE ${HDF5_LANGUAGE_BINDINGS} )
         # find the HDF5 include directories
