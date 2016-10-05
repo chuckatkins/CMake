@@ -1,0 +1,5 @@
+include(Compiler/PGI-FeatureTests)
+_PGI_set_feature_support(c_function_prototypes 1)
+_PGI_set_feature_support(c_restrict 1)
+_PGI_set_feature_support(c_static_assert 0)
+_PGI_set_feature_support(c_variadic_macros 1)

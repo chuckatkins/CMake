@@ -1,0 +1,26 @@
+if(__COMPILER_PGI_FEATURETESTS)
+  return()
+endif()
+set(__COMPILER_PGI_FEATURETESTS 1)
+
+# Build a version test macro from components
+macro(_PGI_get_version_test test_var comp_ver)
+  if("${comp_ver}" MATCHES "([0-9]+)\\.([0-9]+)\\.([0-9]+)")
+    set(${test_var} "__PGIC__ > ${CMAKE_MATCH_1} || (__PGIC__ == ${CMAKE_MATCH_1} && (__PGIC_MINOR__ > ${CMAKE_MATCH_2} || (__PGIC_MINOR__ == ${CMAKE_MATCH_2} && __PGIC_PATCHLEVEL__ >= ${CMAKE_MATCH_3})))")
+  elseif("${comp_ver}" MATCHES "([0-9]+)\\.([0-9]+)")
+    set(${test_var} "__PGIC__ > ${CMAKE_MATCH_1} || (__PGIC__ == ${CMAKE_MATCH_1} && __PGIC_MINOR__ >= ${CMAKE_MATCH_2})")
+  elseif("${comp_ver}" MATCHES "([0-9]+)")
+    set(${test_var} "__PGIC__ >= ${CMAKE_MATCH_1}")
+  endif()
+endmacro()
+
+# Set the appropriate feature support macro given a minimum compiler version
+macro(_PGI_set_feature_support feature ver)
+  if(${ver} EQUAL 0)
+    set(_cmake_feature_test_${feature} 0)
+  elseif(${ver} EQUAL 1)
+    set(_cmake_feature_test_${feature} 1)
+  else()
+    _PGI_get_version_test(_cmake_feature_test_${feature} ${ver})
+  endif()
+endmacro()

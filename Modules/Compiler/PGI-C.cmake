@@ -2,3 +2,29 @@ include(Compiler/PGI)
 __compiler_pgi(C)
 string(APPEND CMAKE_C_FLAGS_MINSIZEREL_INIT " -DNDEBUG")
 string(APPEND CMAKE_C_FLAGS_RELEASE_INIT " -DNDEBUG")
+
+set(CMAKE_C90_STANDARD_COMPILE_OPTION -c89)
+set(CMAKE_C99_STANDARD_COMPILE_OPTION -c99)
+if(NOT CMAKE_C_COMPILER_VERSION VERSION_LESS 15.3)
+  set(CMAKE_C11_STANDARD_COMPILE_OPTION -c11)
+endif()
+
+if(NOT CMAKE_C_COMPILER_VERSION VERSION_LESS 12.10)
+  if (NOT CMAKE_C_COMPILER_FORCED)
+    if (NOT CMAKE_C_STANDARD_COMPUTED_DEFAULT)
+      message(FATAL_ERROR "CMAKE_C_STANDARD_COMPUTED_DEFAULT should be set for ${CMAKE_C_COMPILER_ID} (${CMAKE_C_COMPILER}) version ${CMAKE_C_COMPILER_VERSION}")
+    endif()
+    set(CMAKE_C_STANDARD_DEFAULT ${CMAKE_C_STANDARD_COMPUTED_DEFAULT})
+  elseif(NOT DEFINED CMAKE_C_STANDARD_DEFAULT)
+    # Compiler id was forced so just guess the default standard level.
+    set(CMAKE_C_STANDARD_DEFAULT 90)
+  endif()
+endif()
+
+macro(cmake_record_c_compile_features)
+  foreach(STD IN ITEMS 90 99 11)
+    record_compiler_features(C "${CMAKE_C${STD}_STANDARD_COMPILE_OPTION}"
+      CMAKE_C${STD}_COMPILE_FEATURES)
+  endforeach()
+endmacro()
+
