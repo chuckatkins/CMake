@@ -1,0 +1,5 @@
+include(Compiler/Cray-FeatureTests)
+_Cray_set_feature_support(c_function_prototypes 1)
+_Cray_set_feature_support(c_restrict 1)
+_Cray_set_feature_support(c_static_assert 8.5)
+_Cray_set_feature_support(c_variadic_macros 1)
